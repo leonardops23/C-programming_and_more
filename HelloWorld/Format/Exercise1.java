@@ -1,4 +1,5 @@
 package HelloWorld.Format;
+import java.util.Scanner;
 
 /**
  * Practice Exercise
@@ -15,6 +16,12 @@ package HelloWorld.Format;
 
 public class Exercise1 {
     public static void main(String[] args) {
-        
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine();
+        int age = sc.nextInt();
+        float height = sc.nextFloat();
+        System.out.printf("%-10s%-10s%-10s%n", "Name", "Age", "Height");
+        System.out.printf("%-10s%-10d%.2f%n", name, age, height);
+        sc.close();
     }
 }
