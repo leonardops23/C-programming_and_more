@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <nav class="bg-gray-800 flex items-center justify-between px-6 py-4 shadow-md sticky top-0 z-50">
+        <div class="text-white font-bold text-xl">To-Do App</div>
+        <ul class="hidden md:flex space-x-6 text-gray-300">
+            <li><a href="#" class="hover:text-white transition duration-300">Home</a></li>
+            <li><a href="#" class="hover:text-white transition duration-300">About</a></li>
+            <li><a href="#" class="hover:text-white transition duration-300">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Mis Tareas</h1>
+
+        <form method="post" action="{% url 'add_task' %}" class="mb-8 flex space-x-4">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Añade una tarea" class="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300">Añadir</button>
+        </form>
+
+        <ul class="space-y-4">
+            {% for task in tasks %}
+                <li class="bg-white rounded-md p-4 shadow-sm flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" {% if task.completed %}checked{% endif %} class="mr-4 accent-blue-500">
+                        <span {% if task.completed %}class="line-through text-gray-500"{% endif %}>{{ task.title }}</span>
+                    </div>
+                    <div>
+                        <a href="{% url 'complete_task' task.id %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2 transition duration-300">Completar</a>
+                        <a href="{% url 'delete_task' task.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300">Eliminar</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="text-center text-gray-500">No hay tareas.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</html>
